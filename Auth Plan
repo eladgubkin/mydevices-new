@@ -1,0 +1,43 @@
+1. Add google_userid field to the users table
+
+2. Integrate "Login with Google" button to the React:
+    https://developers.google.com/identity/sign-in/web/sign-in
+
+3. Add header "X-ID-Token" to Apollo Client:
+    https://developers.google.com/identity/sign-in/web/backend-auth
+
+4. Build a microservice called auth-service
+
+    In this step, do everything LOCALLY (python main.py). NO DOCKER!
+
+    The microservice should expose a HTTP GET /auth endpoint:
+        a) Input: X-ID-Token header
+        b) Algorithm:
+            - Check if the ID token is correct (see Python example):
+                https://developers.google.com/identity/sign-in/web/backend-auth
+            - If authentication failed, return 401 Unauthorized. 
+            - Now, we have a google_userid.
+            - Query the users table in the PostgreSQL and find a user with the google_userid. (PonyORM)
+            - If there are no records:
+                * Return 401 Unauthorized.
+        c) Output:
+            - 200 OK.
+            - X-Hasura-User-Id (Response Header): Our OWN User ID (NOT Google's User ID!)
+            - X-Hasura-Role (Response Header): user (lower case)
+
+5. Add Dockerfile to auth-service
+
+6. Add the microservice to docker-compose.yaml:
+
+        auth-service:
+            build:
+                context: ../auth-service
+
+7. Connect the auth microservice to Hasura
+
+        In docker-compose.yaml, add the following environment variables to Hasura:
+            - HASURA_GRAPHQL_AUTH_HOOK: http://auth-service/auth
+            - HASURA_GRAPHQL_AUTH_HOOK_MODE: GET
+
+        Docs: https://hasura.io/docs/1.0/graphql/manual/auth/authentication/webhook.html
+

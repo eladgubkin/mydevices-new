@@ -1,5 +1,10 @@
 version: "3.6"
 services:
+  auth-service:
+    build:
+      context: ./auth-service
+    ports:
+      - 5000:5000
   postgres:
     image: postgres:12
     restart: always
@@ -7,7 +12,9 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - 54320:5432
   pgadmin:
     image: dpage/pgadmin4
     restart: always
@@ -31,5 +38,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: supersecretkey
+      HASURA_GRAPHQL_AUTH_HOOK: http://auth-service:5000/auth
+      HASURA_GRAPHQL_AUTH_HOOK_MODE: GET
 volumes:
   db_data:

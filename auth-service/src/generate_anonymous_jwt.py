@@ -5,6 +5,6 @@ jwt_token = jwt.encode({
         "x-hasura-allowed-roles": ["anonymous"],
         "x-hasura-default-role": "anonymous"
     }
-}, key='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', algorithm='HS256')
+}, key='2235f8adc6b5add923281b0d116c8175', algorithm='HS256')
 
 print(jwt_token)

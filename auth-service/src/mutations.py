@@ -1,6 +1,4 @@
-from flask import Flask
-from pony.flask import Pony
-from models import db, User
+from models import User
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from pony.orm import select
@@ -11,10 +9,6 @@ import requests as reqs
 from datetime import datetime
 import graphene
 import jwt
-from flask_graphql import GraphQLView
-
-app = Flask(__name__)
-Pony(app)
 
 
 class LoginWithGoogle(graphene.Mutation):
@@ -58,30 +52,10 @@ class LoginWithGoogle(graphene.Mutation):
                 "x-hasura-default-role": "user",
                 "x-hasura-user-id": str(user.id),
             }
-        }, key='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', algorithm='HS256')
+        }, key='2235f8adc6b5add923281b0d116c8175', algorithm='HS256')
 
         return LoginWithGoogle(jwt_token=jwt_token.decode('ascii'))
 
 
-class Query(graphene.ObjectType):
-    name = graphene.String()
-
-
 class Mutations(graphene.ObjectType):
     login_with_google = LoginWithGoogle.Field()
-
-
-schema = graphene.Schema(
-    mutation=Mutations,
-    query=Query
-)
-
-app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql',
-                                                           schema=schema, graphiql=True))
-
-
-if __name__ == '__main__':
-    db.bind(provider='postgres', user='postgres', port=5432,
-            password='postgrespassword', host='postgres', database='postgres')
-    db.generate_mapping(create_tables=False)
-    app.run(host="0.0.0.0", port=5000, debug=True)

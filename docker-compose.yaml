@@ -38,7 +38,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: supersecretkey
-      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "HS256", "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }'
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "HS256", "key": "2235f8adc6b5add923281b0d116c8175" }'
       HASURA_GRAPHQL_LOG_LEVEL: debug
 volumes:
   db_data:

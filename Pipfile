@@ -4,15 +4,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+autopep8 = "*"
 
 [packages]
-flask = "*"
-google-api-python-client = "*"
-pony = "*"
-psycopg2-binary = "*"
-graphene = "*"
-pyjwt = "*"
-flask-graphql = "*"
 
 [requires]
 python_version = "3.8"

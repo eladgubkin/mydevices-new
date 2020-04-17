@@ -10,4 +10,4 @@ RUN pipenv install
 
 COPY . ./
 
-CMD pipenv run python3 main.py
+CMD pipenv run python3 app.py

@@ -10,4 +10,4 @@ RUN pipenv install
 
 COPY . ./
 
-CMD pipenv run python3 ./src/app.py
+CMD pipenv run python3 ./auth_service/app.py

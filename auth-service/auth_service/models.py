@@ -12,4 +12,5 @@ class User(db.Entity):
     first_name = Optional(str, nullable=True)
     last_name = Optional(str, nullable=True)
     created_at = Required(datetime)
-    google_userid = Optional(str)
+    google_userid = Optional(str, nullable=True)
+    password = Optional(str, nullable=True)
